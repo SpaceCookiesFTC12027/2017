@@ -14,7 +14,7 @@ public class MyFIRSTjavaopmode extends LinearOpMode {
     private DcMotor motor2;
     private DcMotor motor3;
     private Servo servo1;
-    private Servo servo2;
+    private Servo   servo2;
     /*
     Each private variable (gyroscope, dcmotor, diital channel, distance sensor, and servo) is for
     everything we configured. However we didn't use some of these things but this is for practicing/
