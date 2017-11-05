@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 @TeleOp
 public class MyFIRSTjavaopmodeleftandright extends LinearOpMode {
     private DcMotor motor1;
-    private DcMotor motor2; /*another test*/
+    private DcMotor motor2;
     /*
     Each private variable (gyroscope, dcmotor, diital channel, distance sensor, and servo) is for
     everything we configured. However we didn't use some of these things but this is for practicing/

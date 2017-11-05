@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 /**
@@ -14,7 +15,7 @@ public class MyFIRSTjavaopmode extends LinearOpMode {
     private DcMotor motor2;
     private DcMotor motor3;
     private Servo servo1;
-    private Servo   servo2;
+    private Servo servo2;
     /*
     Each private variable (gyroscope, dcmotor, diital channel, distance sensor, and servo) is for
     everything we configured. However we didn't use some of these things but this is for practicing/
@@ -54,31 +55,45 @@ public class MyFIRSTjavaopmode extends LinearOpMode {
         double armpower = 0;
         while (opModeIsActive()) {
             tgtpower = -this.gamepad1.left_stick_y;
-            motor1.setPower(tgtpower);
-            motor2.setPower(tgtpower);
-            armpower = -this.gamepad2.left_stick_y;
+            armpower = this.gamepad2.left_stick_y;
             motor3.setPower(armpower);
             telemetry.addData("Left Stick X", this.gamepad1.left_stick_x);
             telemetry.addData("Left Stick Y", this.gamepad1.left_stick_y);
             telemetry.addData("Right Stick X", this.gamepad1.right_stick_x);
             telemetry.addData("Right Stick Y", this.gamepad1.right_stick_y);
-            if (this.gamepad1.left_stick_y < 0){
-                tgtpower=-this.gamepad1.left_stick_y;
+            boolean forward = this.gamepad1.left_stick_y < 0;
+            boolean backward = this.gamepad1.left_stick_y > 0;
+            boolean Left = this.gamepad1.right_stick_x < 0;
+            boolean Right = this.gamepad1.right_stick_x > 0;
+            if (forward) {
+                if (Right) {
+                    motor1.setPower(tgtpower);
+                    motor2.setPower(tgtpower);
+                } else if (Left) {
+                    motor1.setPower(-tgtpower);
+                    motor2.setPower(-tgtpower);
+                } else {
+                    motor1.setPower(tgtpower);
+                    motor2.setPower(-tgtpower);
+                }
+            } else if (backward) {
+                if (Right) {
+                    motor1.setPower(-tgtpower);
+                    motor2.setPower(-tgtpower);
+                } else if (Left) {
+                    motor1.setPower(tgtpower);
+                    motor2.setPower(tgtpower);
+                } else {
+                    motor1.setPower(tgtpower);
+                    motor2.setPower(-tgtpower);
+                }
+            }else if (Right){
                 motor1.setPower(tgtpower);
-                motor2.setPower(-tgtpower);
-            }else if (this.gamepad1.left_stick_y > 0){
-                tgtpower=this.gamepad1.left_stick_y;
-                motor1.setPower(-tgtpower);
                 motor2.setPower(tgtpower);
-            }else if (this.gamepad1.left_stick_x > 0){
-                tgtpower=this.gamepad1.left_stick_x;
-                motor1.setPower(tgtpower);
-                motor2.setPower(tgtpower);
-            }else if (this.gamepad1.left_stick_x < 0){
-                tgtpower=-this.gamepad1.left_stick_x;
+            }else if (Left){
                 motor1.setPower(-tgtpower);
                 motor2.setPower(-tgtpower);
-            }else{
+            }else {
                 motor1.setPower(0);
                 motor2.setPower(0);
             }
@@ -97,6 +112,7 @@ public class MyFIRSTjavaopmode extends LinearOpMode {
                 servo1.setPosition(1);
                 servo2.setPosition(0);
             }
+
             telemetry.addData("Servo1 Position", servo1.getPosition());
             telemetry.addData("Servo2 Position", servo2.getPosition());
             telemetry.addData("Motor1 Power", motor1.getPower());
@@ -104,12 +120,6 @@ public class MyFIRSTjavaopmode extends LinearOpMode {
             telemetry.addData("Motor3 Power", motor3.getPower());
             telemetry.addData("Status", "Running");
             telemetry.update ();
-
-        /*
-        After the driver presses start,the opMode enters a while loop until the driver presses stop,
-        while the loop is running it will continue to send messages of ("Status", "Running") to the
-        driver station
-        */
 
         }
     }
