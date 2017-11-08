@@ -40,12 +40,19 @@ public class myFIRSTAutonomousjavaopmode extends LinearOpMode {
         waitForStart();
         //new: makes robot go forward 3 seconds
         motor1.setPower(FORWARD_SPEED);
+        motor2.setPower(-FORWARD_SPEED);
+        runtime.reset();
+        while (opModeIsActive() && (runtime.seconds() < 1.0)) {
+
+        }
+        motor1.setPower(-FORWARD_SPEED);
         motor2.setPower(FORWARD_SPEED);
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 3.0)) {
-            telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());
-            telemetry.update();
+        while (opModeIsActive() && (runtime.seconds() < 1.0)){
+
         }
+        motor1.setPower(0);
+        motor2.setPower(0);
         //end new
         while (opModeIsActive()) {
             Color.RGBToHSV((int) (colorsensor.red() * SCALE_FACTOR),
